@@ -9,5 +9,12 @@
   ],
   "background": {
     "scripts": ["background.js"]
+  },
+  "content_scripts": [
+  {
+    "matches": ["https://clips.twitch.tv/create"],
+    "js": ["publishClip.js"],
+    "run_at": "document_start"
   }
+]
 }
