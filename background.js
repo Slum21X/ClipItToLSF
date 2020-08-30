@@ -8,6 +8,12 @@ let getSlug = function(details){
 
     if (slug != null){
       console.log(slug);
+
+      let div = document.createElement("div");
+      div.setAttribute("id", "ClipItToLSF_Slug");
+      div.setAttribute("src", slug);
+      document.body.appendChild(div);
+      
       chrome.webRequest.onBeforeRequest.removeListener(getSlug);
     }
   }
