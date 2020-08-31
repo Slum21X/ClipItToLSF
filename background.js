@@ -1,5 +1,8 @@
 /*jshint esversion: 6 */
 
+let currentSlug = "NO SLUG SET";
+let currentTitle = "NO TITLE SET";
+
 function getSlug(details){
   if (details.requestBody?.raw['0']?.bytes != null){ // jshint ignore:line
 
@@ -7,13 +10,9 @@ function getSlug(details){
     const slug = JSON.parse(requestBodyString)['0']?.variables?.slug; // jshint ignore:line
 
     if (slug != null){
-      console.log(slug);
 
-      let div = document.createElement("div");
-      div.setAttribute("id", "ClipItToLSF_Slug");
-      div.setAttribute("src", slug);
-      document.body.appendChild(div);
-
+      currentSlug = slug;
+      console.log(currentSlug);
       chrome.webRequest.onBeforeRequest.removeListener(getSlug);
     }
   }
@@ -24,3 +23,14 @@ chrome.webRequest.onBeforeRequest.addListener(
   {urls: ['https://*.twitch.tv/*']},
   ['requestBody']
 );
+
+chrome.runtime.onMessage.addListener(
+  function(request, sender, sendResponse) {
+
+    const title = request.setTitle;
+
+    if (title != null){
+      currentTitle = title;
+      console.log(currentTitle);
+    }
+});
