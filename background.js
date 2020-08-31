@@ -1,42 +1,33 @@
 /*jshint esversion: 6 */
 
-let currentSlug = "NO SLUG SET";
-let currentTitle = "NO TITLE SET";
+function getSlugAndTitle(details){
 
-function getSlug(details){
-  if (details.requestBody?.raw['0']?.bytes != null){ // jshint ignore:line
+  const body8Array = details.requestBody?.raw['0']?.bytes // jshint ignore:line
 
-    const requestBodyString = String.fromCharCode.apply(null, new Uint8Array(details.requestBody.raw['0'].bytes));
-    const slug = JSON.parse(requestBodyString)['0']?.variables?.slug; // jshint ignore:line
+  if (body8Array != null){ // jshint ignore:line
 
-    if (slug != null){
+    const requestBodyString = String.fromCharCode.apply(null, new Uint8Array(body8Array));
+    const parsedBody = JSON.parse(requestBodyString)['0'];
 
-      currentSlug = slug;
-      console.log(currentSlug);
-      chrome.webRequest.onBeforeRequest.removeListener(getSlug);
+    if (parsedBody != null){
+      if (parsedBody.operationName == "PublishClip"){
+
+        const slug = parsedBody.variables.input.slug;
+        const title = parsedBody.variables.input.title;
+        const url = "https://clips.twitch.tv/" + slug;
+
+        chrome.tabs.create({
+          url: "https://www.reddit.com/r/LivestreamFail/submit" +
+          "?url=" + url +
+          "&title=" + title
+        });
+      }
     }
   }
 }
 
 chrome.webRequest.onBeforeRequest.addListener(
-  getSlug,
+  getSlugAndTitle,
   {urls: ['https://*.twitch.tv/*']},
   ['requestBody']
 );
-
-chrome.runtime.onMessage.addListener(
-  function(request, sender, sendResponse) {
-
-    const title = request.setTitle;
-
-    if (title != null){
-      currentTitle = title;
-      console.log(currentTitle);
-
-      chrome.tabs.create({
-        url: "https://www.reddit.com/r/LivestreamFail/submit" +
-        "?url=https://clips.twitch.tv/" + currentSlug +
-        "&title=" + currentTitle
-      });
-    }
-});
