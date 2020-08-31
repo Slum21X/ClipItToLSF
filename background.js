@@ -32,5 +32,11 @@ chrome.runtime.onMessage.addListener(
     if (title != null){
       currentTitle = title;
       console.log(currentTitle);
+
+      chrome.tabs.create({
+        url: "https://www.reddit.com/r/LivestreamFail/submit" +
+        "?url=https://clips.twitch.tv/" + currentSlug +
+        "&title=" + currentTitle
+      });
     }
 });

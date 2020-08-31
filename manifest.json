@@ -4,6 +4,7 @@
   "description": "LUL",
   "manifest_version": 2,
   "permissions": [
+    "tabs",
     "webRequest",
     "https://*.twitch.tv/*"
   ],
