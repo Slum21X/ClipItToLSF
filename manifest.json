@@ -1,12 +1,13 @@
 {
   "name": "ClipItToLSF",
-  "version": "0.1.20",
+  "version": "0.1.21",
   "description": "LUL",
   "manifest_version": 2,
   "permissions": [
     "tabs",
     "webRequest",
-    "https://*.twitch.tv/*"
+    "https://clips.twitch.tv/create",
+    "https://gql.twitch.tv/gql"
   ],
   "background": {
     "scripts": ["background.js"]

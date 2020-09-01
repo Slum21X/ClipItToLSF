@@ -38,6 +38,6 @@ function getSlugAndTitle(details){
 
 chrome.webRequest.onBeforeRequest.addListener(
   getSlugAndTitle,
-  {urls: ['https://*.twitch.tv/*']},
+  {urls: ['https://gql.twitch.tv/gql']},
   ['requestBody']
 );
