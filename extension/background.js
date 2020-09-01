@@ -1,6 +1,24 @@
 /*jshint esversion: 6 */
 
-function getSlugAndTitle(details){
+function submitClip(innerBody){
+  const inputs = innerBody.variables.input;
+
+  const slug = inputs.slug;
+  const title = inputs.title;
+
+  const slugUrl = "https://clips.twitch.tv/" + slug;
+  const subreddit= "LivestreamFail";
+
+  const url = "https://www.reddit.com/r/" + subreddit + "/submit" +
+  "?url=" + slugUrl +
+  "&title=" + title;
+
+  chrome.tabs.create({
+    url: url
+  });
+}
+
+function postClip(details){
 
   if (details.requestBody?.raw != null){ // jshint ignore:line
 
@@ -17,20 +35,7 @@ function getSlugAndTitle(details){
           const innerBody = parsedBody['0'];
 
           if (innerBody.operationName == "PublishClip"){
-
-            const inputs = innerBody.variables.input;
-
-            const slug = inputs.slug;
-            const title = inputs.title;
-            const slugUrl = "https://clips.twitch.tv/" + slug;
-
-            const url = "https://www.reddit.com/r/LivestreamFail/submit" +
-            "?url=" + slugUrl +
-            "&title=" + title;
-
-            chrome.tabs.create({
-              url: url
-            });
+            submitClip(innerBody);
           }
         }
       }
@@ -39,7 +44,7 @@ function getSlugAndTitle(details){
 }
 
 chrome.webRequest.onBeforeRequest.addListener(
-  getSlugAndTitle,
+  postClip,
   {urls: ['https://gql.twitch.tv/gql']},
   ['requestBody']
 );
