@@ -3,6 +3,7 @@
 function getSlugAndTitle(details){
 
   if (details.requestBody?.raw != null){ // jshint ignore:line
+
     const body8Array = details.requestBody.raw['0']?.bytes // jshint ignore:line
 
     if (body8Array != null){ // jshint ignore:line
@@ -11,19 +12,24 @@ function getSlugAndTitle(details){
       const parsedBody = JSON.parse(requestBodyString);
 
       if (parsedBody != null){
-        if (parsedBody.operationName == "PublishClip"){
+        if (parsedBody['0'] != null){
 
-          const inputs = parsedBody['0'].variables.input;
+          const innerBody = parsedBody['0'];
 
-          const slug = inputs.slug;
-          const title = inputs.title;
-          const url = "https://clips.twitch.tv/" + slug;
+          if (innerBody.operationName == "PublishClip"){
 
-          chrome.tabs.create({
-            url: "https://www.reddit.com/r/LivestreamFail/submit" +
-            "?url=" + url +
-            "&title=" + title
-          });
+            const inputs = innerBody.variables.input;
+
+            const slug = inputs.slug;
+            const title = inputs.title;
+            const url = "https://clips.twitch.tv/" + slug;
+
+            chrome.tabs.create({
+              url: "https://www.reddit.com/r/LivestreamFail/submit" +
+              "?url=" + url +
+              "&title=" + title
+            });
+          }
         }
       }
     }
