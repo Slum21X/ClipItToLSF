@@ -22,12 +22,14 @@ function getSlugAndTitle(details){
 
             const slug = inputs.slug;
             const title = inputs.title;
-            const url = "https://clips.twitch.tv/" + slug;
+            const slugUrl = "https://clips.twitch.tv/" + slug;
+
+            const url = "https://www.reddit.com/r/LivestreamFail/submit" +
+            "?url=" + slugUrl +
+            "&title=" + title;
 
             chrome.tabs.create({
-              url: "https://www.reddit.com/r/LivestreamFail/submit" +
-              "?url=" + url +
-              "&title=" + title
+              url: url
             });
           }
         }
