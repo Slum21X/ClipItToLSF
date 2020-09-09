@@ -1,6 +1,6 @@
 {
   "name": "ClipItToLSF",
-  "version": "0.1.23",
+  "version": "1.0.1",
   "description": "LUL",
   "manifest_version": 2,
   "permissions": [
@@ -11,5 +11,10 @@
   ],
   "background": {
     "scripts": ["background.js"]
+  },
+  "icons": {
+    "16": "./icons/icon16.png",
+    "48": "./icons/icon48.png",
+    "128": "./icons/icon128.png"
   }
 }
