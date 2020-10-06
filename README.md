@@ -1,5 +1,5 @@
 # ClipItToLSF
-#### This extension allows you to go from a slow clip chimp loser to a fast ebic poggers clip champ!
+### How it works:
 
 ## Step 1: Clip it
 ![Image of Clipping](https://github.com/Slum21X/ClipItToLSF/blob/master/media/1.%20Clip%20it.png)
